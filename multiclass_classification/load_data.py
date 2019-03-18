@@ -6,7 +6,20 @@ from scipy.io import loadmat
 filename = "ex3data1.mat"
 
 data = loadmat(filename)
-print(data)
-print(data["X"].shape, data["y"].shape)
 
+x = pd.DataFrame.from_dict(data['X'])
+y = pd.DataFrame.from_dict(data['y'])
+x.insert(0, "Ones", 1)
 
+x = x.values
+y = y.values
+
+for i in range(len(y)):
+    if y[[i]] == 10:
+        y[[i]] = 0
+
+features = x.shape[1]
+all_theta = np.zeros((10, features))
+theta = np.zeros((1, features))
+
+print(x.shape, y.shape, all_theta.shape, theta.shape)

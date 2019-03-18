@@ -1,6 +1,6 @@
 import numpy as np
 
-# from gradient import gradient
+from gradient import gradient
 from sigmoid import sigmoid
 
 
