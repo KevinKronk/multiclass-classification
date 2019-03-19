@@ -2,6 +2,8 @@ from scipy.io import loadmat
 
 
 def load_data(filename):
+    """ Loads a .mat file into an ndarray. """
+
     data = loadmat(filename)
 
     x = data['X']

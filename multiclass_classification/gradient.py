@@ -4,32 +4,31 @@ from scipy.special import expit
 
 def gradient(theta, x, y_i, hyper_p):
     """
-        Gradient with regularization for parameters in logistic regression.
+        Logistic regression gradient with regularization.
 
         Parameters
         ----------
         theta : array_like
-            Shape (1, n+1). Parameter values for function.
+            Shape (n+1,). Parameter values for function.
 
         x : array_like
             Shape (m, n+1). Features in model.
 
         y_i : array_like
-            Shape (m, 1). Labels for each example.
+            Shape (m,). Labels for in current class i (1) or not (0).
 
         hyper_p : float
             Value of the hyperparameter for regularization.
 
         Returns
         -------
-        grad : array_like
-            Shape (1, n+1). The gradient for each parameter.
+        reg_grad : array_like
+            Shape (n+1,). The gradient for each parameter.
     """
 
     size = y_i.size
 
     h = expit(x @ theta.T)
-
     grad = (1 / size) * np.sum((h - y_i)[:, None] * x, axis=0)
     reg = ((hyper_p / size) * theta)
 
