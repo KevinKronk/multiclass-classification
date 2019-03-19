@@ -1,6 +1,5 @@
 import numpy as np
-
-from sigmoid import sigmoid
+from scipy.special import expit
 
 
 def log_cost(theta, x, y_i, hyper_p):
@@ -33,8 +32,9 @@ def log_cost(theta, x, y_i, hyper_p):
     theta = np.reshape(theta, (1, x.shape[1]))
     size = y_i.shape[0]
 
-    h = sigmoid(x @ theta.T)
-    reg = (hyper_p / 2 * size) * np.sum(theta[:, 1:theta.shape[1]] ** 2)
-
-    cost = -((1 / size) * np.sum(y_i * np.log(h) + (1 - y_i) * np.log(1 - h))) + reg
+    h = expit(x @ theta.T)
+    first = -y_i * np.log(h)
+    second = (1 - y_i) * np.log(1 - (h - 0.0001))  ####
+    reg = (hyper_p / 2 * size) * np.sum(np.power(theta[:, 1:theta.shape[1]], 2))
+    cost = (np.sum(first - second) / size) + reg
     return cost

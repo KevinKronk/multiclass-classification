@@ -1,6 +1,5 @@
 import numpy as np
-
-from sigmoid import sigmoid
+from scipy.special import expit
 
 
 def gradient(theta, x, y_i, hyper_p):
@@ -30,9 +29,9 @@ def gradient(theta, x, y_i, hyper_p):
     theta = np.reshape(theta, (1, x.shape[1]))
     size = y_i.shape[0]
 
-    error = (1 / size) * (sigmoid(x @ theta.T) - y_i)
+    error = expit(x @ theta.T) - y_i
 
-    grad = (x.T @ error).T + ((hyper_p / size) * theta)
-    grad[0, 0] = np.sum(error * x[:, 0])
+    grad = ((x.T @ error) / size).T + ((hyper_p / size) * theta)
+    grad[0, 0] = np.sum(error * x[:, 0]) / size
 
-    return grad.ravel()
+    return np.array(grad).ravel()

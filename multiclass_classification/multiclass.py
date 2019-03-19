@@ -10,12 +10,12 @@ def multiclass(x, y, k, hyper_p):
     all_theta = np.zeros((k, features))
 
     for i in range(k):
-        theta = np.zeros((1, features))
+        theta = np.zeros(features)
         y_i = np.array([1 if _ == i else 0 for _ in y])
         y_i = np.reshape(y_i, (len(y_i), 1))
 
         options = {'maxiter': 100}
-        fmin = minimize(fun=log_cost, x0=theta, args=(x, y_i, hyper_p), method='TNC', jac=gradient,
+        fmin = minimize(fun=log_cost, x0=theta, args=(x, y_i, hyper_p), method='CG', jac=gradient,
                         options=options)
         all_theta[i, :] = fmin.x
 

@@ -1,9 +1,9 @@
-from sigmoid import sigmoid
 import numpy as np
+from scipy.special import expit
 
 
 def predict_class(x, y, all_theta):
-    h = sigmoid(x @ all_theta.T)
+    h = expit(x @ all_theta.T)
     h_argmax = np.argmax(h, axis=1)
     h_argmax = np.reshape(h_argmax, (len(h_argmax), 1))
     # correct = [1 if a == b else 0 for (a, b) in zip(h_argmax, y)]
