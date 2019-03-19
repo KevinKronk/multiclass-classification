@@ -1,10 +1,9 @@
 import numpy as np
 
-from gradient import gradient
 from sigmoid import sigmoid
 
 
-def log_cost(theta, x, y, hyper_p):
+def log_cost(theta, x, y_i, hyper_p):
     """
         Logistic regression cost function with regularization.
 
@@ -16,7 +15,7 @@ def log_cost(theta, x, y, hyper_p):
         x : array_like
             Shape (m, n+1). Features in model.
 
-        y : array_like
+        y_i : array_like
             Shape (m, 1). Labels for each example.
 
         hyper_p : float
@@ -32,11 +31,10 @@ def log_cost(theta, x, y, hyper_p):
     """
 
     theta = np.reshape(theta, (1, x.shape[1]))
-    size = y.shape[0]
+    size = y_i.shape[0]
 
     h = sigmoid(x @ theta.T)
     reg = (hyper_p / 2 * size) * np.sum(theta[:, 1:theta.shape[1]] ** 2)
 
-    cost = -((1 / size) * np.sum(y * np.log(h) + (1 - y) * np.log(1 - h))) + reg
-    # grad = gradient(theta, x, y, hyper_p)
-    return cost  # , grad
+    cost = -((1 / size) * np.sum(y_i * np.log(h) + (1 - y_i) * np.log(1 - h))) + reg
+    return cost
