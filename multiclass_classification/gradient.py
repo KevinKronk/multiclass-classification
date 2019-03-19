@@ -26,12 +26,13 @@ def gradient(theta, x, y_i, hyper_p):
             Shape (1, n+1). The gradient for each parameter.
     """
 
-    theta = np.reshape(theta, (1, x.shape[1]))
-    size = y_i.shape[0]
+    size = y_i.size
 
-    error = expit(x @ theta.T) - y_i
+    h = expit(x @ theta.T)
 
-    grad = ((x.T @ error) / size).T + ((hyper_p / size) * theta)
-    grad[0, 0] = np.sum(error * x[:, 0]) / size
+    grad = (1 / size) * np.sum((h - y_i)[:, None] * x, axis=0)
+    reg = ((hyper_p / size) * theta)
 
-    return np.array(grad).ravel()
+    reg_grad = grad + reg
+    reg_grad[0] = grad[0]
+    return reg_grad
